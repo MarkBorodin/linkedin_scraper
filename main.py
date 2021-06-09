@@ -1,5 +1,6 @@
 import csv
 import os
+import sys
 
 import pandas as pd
 from linkedin_scraper import actions
@@ -11,7 +12,7 @@ from custom_company import CompanyPlus
 class Spider(object):
     """looking for basic information about the company on linked + information about the company leader"""
 
-    def __init__(self, email: str, password: str, name: str, several_mode=False): # noqa
+    def __init__(self, email: str, password: str, name: str, several_mode=False, headless_mode=False): # noqa
         self.email = email
         self.password = password
         self.name = name
@@ -19,6 +20,7 @@ class Spider(object):
         self.companies = None
         self.driver = None
         self.several_mode = several_mode
+        self.headless_mode = headless_mode
         self.columns = [
             'company_name', 'founded', 'website', 'linkedin_url', 'affiliated_companies', 'company_type',
             'industry', 'about_us', 'company_size', 'number_of_employees_in_linkedin', 'leader_name',
@@ -46,7 +48,12 @@ class Spider(object):
 
     def login(self):
         """login in linkedin"""
-        self.driver = webdriver.Chrome()
+        if headless_mode:
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.headless = True
+            self.driver = webdriver.Chrome(chrome_options=chrome_options)
+        else:
+            self.driver = webdriver.Chrome()
         actions.login(self.driver, self.email, self.password)
 
     def get_companies(self) -> list:
@@ -210,26 +217,30 @@ class Spider(object):
 if __name__ == '__main__':
 
     # get email in command line
-    # email = sys.argv[1]
-    email = 'mark.calendso@gmail.com'
+    email = sys.argv[1]
+    # email = 'mark.calendso@gmail.com'
     # email = 'rens2588@gmail.com'
 
     # get password in command line
-    # password = sys.argv[2]
-    password = '1311711mark'
+    password = sys.argv[2]
+    # password = '1311711mark'
     # password = '52970130mark'
 
     # get file or company name in command line
-    # file = sys.argv[3]
-    name = 'Test-companies.xlsx'
+    name = sys.argv[3]
+    # name = 'Test-companies.xlsx'
     # name = 'Marketing monkeys'
 
     # get mode (one company or several). Default: several_mode = False
-    # several_mode = bool(sys.argv[4])
-    several_mode = True
+    several_mode = True if sys.argv[4] == 'True' else False
+    # several_mode = False
+
+    # get mode (one headless or not). Default: headless = False
+    headless_mode = True if sys.argv[5] == 'True' else False
+    # headless_mode = True
 
     # create object
-    spider = Spider(email, password, name, several_mode)
+    spider = Spider(email, password, name, several_mode, headless_mode)
 
     # start_request, get data and write to .xlsx
     spider.start()

@@ -14,7 +14,7 @@ Collects data about the company on linkedin
 
 clone repository:
 ```
-git clone 
+git clone https://github.com/MarkBorodin/linkedin_scraper
 ```
 
 move to folder "linkedin_scraper":
@@ -34,16 +34,24 @@ pip install -r requirements.txt
 ### run the program:
 
 ```
-python main.py "email "password" "file_name" 
+python main.py "email "password" "name" several_mode headless_mode
 ```
 
 email - your email from linkedin
+
 password - your password from linkedin
-file_name - file name with company names (company names must be in the first column of the file)
+
+name - file name with company names (company names must be in the first column of the file)
+
+several_mode - single or serial mode. If False is single mode, you need to enter the company name. 
+For example "Marketing monkeys". If True - serial mode. You need to enter the name of the .xlsx file in the torus 
+are the names of the companies (they should be in the first column)
+
+headless_mode - visual or headless mode. If true - headless mode. If False - visual mode
 
 for example:
 ```
-python main.py "some_email@gmail.com" "some_password" "file_name.xlsx"
+python main.py "some_email@gmail.com" "some_password" "file_name.xlsx" True False
 ```
 
 the data will be written to the results.xlsx file

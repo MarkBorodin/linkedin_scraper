@@ -4,3 +4,4 @@ venv/
 .env
 Test-companies.xlsx
 Linkedin Scrapper doc.docx
+test.py
