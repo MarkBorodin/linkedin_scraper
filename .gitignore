@@ -1,0 +1,6 @@
+venv/
+.idea/
+*.pyc
+.env
+Test-companies.xlsx
+Linkedin Scrapper doc.docx
