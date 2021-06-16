@@ -45,15 +45,16 @@ class Spider(object):
         with open(self.result_file, "a", newline="", encoding='UTF-8') as f:
             writer = csv.writer(f)
             writer.writerows([lst])
+            writer.writerows([''])
 
     def login(self):
         """login in linkedin"""
         if headless_mode:
             chrome_options = webdriver.ChromeOptions()
             chrome_options.headless = True
-            self.driver = webdriver.Chrome(chrome_options=chrome_options)
+            self.driver = webdriver.Chrome('./chromedriver', chrome_options=chrome_options)
         else:
-            self.driver = webdriver.Chrome()
+            self.driver = webdriver.Chrome('./chromedriver')
         actions.login(self.driver, self.email, self.password)
 
     def get_companies(self) -> list:
@@ -218,26 +219,18 @@ if __name__ == '__main__':
 
     # get email in command line
     email = sys.argv[1]
-    # email = 'mark.calendso@gmail.com'
-    # email = 'rens2588@gmail.com'
 
     # get password in command line
     password = sys.argv[2]
-    # password = '1311711mark'
-    # password = '52970130mark'
 
     # get file or company name in command line
     name = sys.argv[3]
-    # name = 'Test-companies.xlsx'
-    # name = 'Marketing monkeys'
 
     # get mode (one company or several). Default: several_mode = False
     several_mode = True if sys.argv[4] == 'True' else False
-    # several_mode = False
 
     # get mode (one headless or not). Default: headless = False
     headless_mode = True if sys.argv[5] == 'True' else False
-    # headless_mode = True
 
     # create object
     spider = Spider(email, password, name, several_mode, headless_mode)
