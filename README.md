@@ -14,7 +14,7 @@ Collects data about the company on linkedin
 
 clone repository:
 ```
-git clone https://github.com/MarkBorodin/linkedin_scraper
+git clone https://github.com/MarkBorodin/linkedin_scraper.git
 ```
 
 move to folder "linkedin_scraper":
